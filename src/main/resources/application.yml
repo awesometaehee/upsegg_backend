@@ -1,0 +1,35 @@
+server:
+  port: 8080
+  
+spring:  application:
+    name: imth
+  profiles:
+    active: default
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  datasource:    url: jdbc:mysql://mysql-1.cppflcqdylwi.ap-northeast-2.rds.amazonaws.com/upsegg?useUnicode=true&characterEncoding=utf-8
+    username: admin
+    password: password123!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    generate-ddl: true
+  rabbitmq:
+    host: ec2-52-79-237-234.ap-northeast-2.compute.amazonaws.com
+    username: rabbitmq
+    password: password123
+  kafka:    bootstrap-servers:
+      - ec2-52-78-20-10.ap-northeast-2.compute.amazonaws.com:9092
+      
+#eureka:
+#  client:
+#     service-url:
+#       # 유레카의 로컬 ip 주소
+#       defaultZone: http://192.168.0.38:8761/eureka/
+#  instance:
+#    # 본인 서비스의 로컬 ip 주소
+#    hostname: 192.168.0.26        
+api:
+  base-path: http://localhost:8080        
