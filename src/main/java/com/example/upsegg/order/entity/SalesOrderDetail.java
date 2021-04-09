@@ -24,10 +24,9 @@ public class SalesOrderDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private Long salesOrderId; // nullable
-	private long price;
-	private long quantity;
-
 	@ManyToOne
 	@JoinColumn(name = "productId")
 	private Product product;
+	private long price;
+	private long quantity;
 }

@@ -78,8 +78,8 @@ public class ProductController {
 
 	// 상품 1건 수정
 	@RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
-	public Product modiProduct(@PathVariable("id") long id, @RequestBody String name, String description, long price,
-			long stock, String category, HttpServletResponse res) {
+	public Product modiProduct(@PathVariable("id") long id, @RequestBody Product modifiedProduct,
+			HttpServletResponse res) {
 		Product product = productRepo.findById(id).orElse(null);
 
 		if (product == null) {
@@ -87,12 +87,13 @@ public class ProductController {
 			return null;
 		}
 
-		product.setName(name);
-		product.setDescription(description);
-		product.setStock(stock);
-		product.setPrice(price);
-		product.setCategory(category);
-		// product.setReDate(new Date());
+		product.setProductName(modifiedProduct.getProductName());
+		product.setDescription(modifiedProduct.getDescription());
+		product.setStock(modifiedProduct.getStock());
+		product.setPrice(modifiedProduct.getPrice());
+		product.setCategory(modifiedProduct.getCategory());
+		product.setCode(modifiedProduct.getCode());
+		product.setReDate(new SimpleDateFormat("yyyy.MM.dd").format(new Date()));
 
 		productRepo.save(product);
 

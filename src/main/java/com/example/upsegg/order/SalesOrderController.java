@@ -1,5 +1,7 @@
 package com.example.upsegg.order;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,12 +36,17 @@ public class SalesOrderController {
 		return list;
 	}
 
+	// 주문 1건 추가(임시)
 	@RequestMapping(value = "/sales-orders", method = RequestMethod.POST)
-	public SalesOrder addPurchaseOrders(@RequestBody SalesOrder salesOrder) {
+	public SalesOrder addPurchaseOrders(@RequestBody SalesOrder salesOrder) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c1 = Calendar.getInstance();
+		String Today = sdf.format(c1.getTime());
+		salesOrder.setOrderDate(Today);
+
 		salesOrder.setOrderState("00");
 		salesOrderRepo.save(salesOrder);
 		System.out.println(salesOrder);
-
 		return salesOrder;
 	}
 

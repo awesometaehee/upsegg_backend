@@ -24,7 +24,8 @@ public class SalesOrderService {
 
 		SalesOrder salesOrder = SalesOrder.builder().name(order.getName()).address(order.getAddress())
 				.tel(order.getTel()).orderDate(order.getOrderDate()).note(order.getNote()).pay(order.getPay())
-				.salesOrderDetail(order.getSalesOrderDetail()).build();
+				.pmt(order.getPmt()).orderState(order.getOrderState()).salesOrderDetail(order.getSalesOrderDetail())
+				.build();
 
 		System.out.println(salesOrder);
 		orderRepo.save(salesOrder);

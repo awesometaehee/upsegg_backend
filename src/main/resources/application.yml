@@ -2,20 +2,27 @@ server:
   port: 8080
   
 spring:  application:
-    name: imth
+    name: management
   profiles:
     active: default
   servlet:
     multipart:
       max-file-size: -1
       max-request-size: -1
-  datasource:    url: jdbc:mysql://mysql-1.cppflcqdylwi.ap-northeast-2.rds.amazonaws.com/upsegg?useUnicode=true&characterEncoding=utf-8
+  datasource:    url: jdbc:mysql://mysql-1.cppflcqdylwi.ap-northeast-2.rds.amazonaws.com/upsegg?useUnicode=true&characterEncoding=utf-8&rewriteBatchedStatements=true
     username: admin
     password: password123!
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
     generate-ddl: true
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 5
+        order_insert: true
+        order_updates: true
+        generate_statistics: true
   rabbitmq:
     host: ec2-52-79-237-234.ap-northeast-2.compute.amazonaws.com
     username: rabbitmq
@@ -32,4 +39,16 @@ spring:  application:
 #    # 본인 서비스의 로컬 ip 주소
 #    hostname: 192.168.0.26        
 api:
-  base-path: http://localhost:8080        
+  base-path: http://localhost:8080
+  
+---     
+spring:
+  profiles: prod
+eureka:
+  client:
+    service-url:
+      # 유레카의 ec2 주소
+      default-zone: http://ec2-3.36.90.155.ap-northeast-2.compute.amazonaws.com:8761/eureka
+  instance:
+    # 본인 서비스의 ec2 주소 서비스가 실행되는 ec2주소
+    hostname: ec2-52-79-237-234.ap-northeast-2.compute.amazonaws.com        

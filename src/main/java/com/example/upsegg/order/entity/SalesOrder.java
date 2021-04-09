@@ -31,8 +31,9 @@ public class SalesOrder {
 	private String address; // 주소
 	private String tel; // 번호
 	private String orderDate; // 주문일
-	private String note;
-	private String pay;
+	private long pmt; // 총 결제금액
+	private String note; // 요청사항
+	private String pay; // 결제 방법
 
 	@Column(columnDefinition = "CHAR(2)")
 	@ColumnDefault("'00'")
