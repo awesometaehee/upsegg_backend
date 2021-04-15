@@ -20,12 +20,11 @@ public class SalesOrderService {
 	@RabbitListener(queues = "commerce.purchaseorder")
 	public void receiveOrder(SalesOrder order) {
 		System.out.println("--- SALESORDER LOG ---");
-		System.out.println(order);
 
 		SalesOrder salesOrder = SalesOrder.builder().name(order.getName()).address(order.getAddress())
 				.tel(order.getTel()).orderDate(order.getOrderDate()).note(order.getNote()).pay(order.getPay())
-				.pmt(order.getPmt()).orderState(order.getOrderState()).salesOrderDetail(order.getSalesOrderDetail())
-				.build();
+				.pmt(order.getPmt()).orderState(order.getOrderState()).price(order.getPrice())
+				.productName(order.getProductName()).code(order.getCode()).category(order.getCategory()).build();
 
 		System.out.println(salesOrder);
 		orderRepo.save(salesOrder);

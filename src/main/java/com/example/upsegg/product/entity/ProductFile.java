@@ -21,6 +21,7 @@ public class ProductFile {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String fileName;
+	private String contentType;
 	private long productId;
 
 	@Transient

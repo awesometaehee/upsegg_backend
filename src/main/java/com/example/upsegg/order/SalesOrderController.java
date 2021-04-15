@@ -36,23 +36,10 @@ public class SalesOrderController {
 		return list;
 	}
 
-	// 주문 1건 추가(임시)
-	@RequestMapping(value = "/sales-orders", method = RequestMethod.POST)
-	public SalesOrder addPurchaseOrders(@RequestBody SalesOrder salesOrder) throws Exception {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar c1 = Calendar.getInstance();
-		String Today = sdf.format(c1.getTime());
-		salesOrder.setOrderDate(Today);
-
-		salesOrder.setOrderState("00");
-		salesOrderRepo.save(salesOrder);
-		System.out.println(salesOrder);
-		return salesOrder;
-	}
-
 	// 주문 상태 수정
 	@RequestMapping(value = "/sales-orders/{id}", method = RequestMethod.PUT)
-	public SalesOrder modiSalesOrders(@RequestParam("id") long id, HttpServletResponse res) {
+	public SalesOrder modiSalesOrders(@PathVariable("id") long id, @RequestBody SalesOrder orderState,
+			HttpServletResponse res) {
 		SalesOrder salesOrder = salesOrderRepo.findById(id).orElse(null);
 
 		if (salesOrder == null) {
@@ -60,8 +47,7 @@ public class SalesOrderController {
 			return null;
 		}
 
-		salesOrder.setId(id);
-
+		salesOrder.setOrderState(orderState.getOrderState());
 		salesOrderRepo.save(salesOrder);
 
 		return salesOrder;

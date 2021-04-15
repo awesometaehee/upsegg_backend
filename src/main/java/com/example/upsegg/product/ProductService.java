@@ -6,6 +6,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.upsegg.product.entity.Product;
+import com.example.upsegg.product.entity.ProductFile;
 import com.google.gson.Gson;
 
 @Service
@@ -23,7 +24,7 @@ public class ProductService {
 		System.out.println("-- PRODUCT LOG --");
 		System.err.println(product);
 
-		// rabbit.convertAndSend("commerce.product", product);
+		rabbit.convertAndSend("commerce.product", product);
 		// kafka.send("commerce.product", new Gson().toJson(product));
 	}
 }

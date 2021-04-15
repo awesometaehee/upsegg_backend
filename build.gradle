@@ -18,11 +18,11 @@ repositories {
 	mavenCentral()
 }
 
-/*
+
 ext {
 	set('springCloudVersion', "2020.0.0")
 }
-*/
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
@@ -41,13 +41,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
-/*
+
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
-*/
+
 
 test {
 	useJUnitPlatform()

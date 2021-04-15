@@ -2,6 +2,7 @@ package com.example.upsegg.product;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,6 +60,7 @@ public class ProductController {
 				file.setDataUrl(apiConfig.getBasePath() + "/product-files/" + file.getId());
 			}
 		}
+		System.out.println(list);
 
 		return list;
 	}
@@ -123,7 +127,7 @@ public class ProductController {
 
 	// {id}인 product에 product-files 목록 조회
 	@RequestMapping(value = "/products/{id}/product-files", method = RequestMethod.GET)
-	public List<ProductFile> getProductFile(@PathVariable("id") long id, HttpServletResponse res) {
+	public List<ProductFile> getProductFiles(@PathVariable("id") long id, HttpServletResponse res) {
 
 		if (productRepo.findById(id).orElse(null) == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -157,10 +161,30 @@ public class ProductController {
 		FileCopyUtils.copy(file.getBytes(), new File(FILE_PATH.resolve(file.getOriginalFilename()).toString()));
 
 		// 파일 메타 데이터 저장
-		ProductFile productFile = ProductFile.builder().productId(id).fileName(file.getOriginalFilename()).build();
+		ProductFile productFile = ProductFile.builder().productId(id).fileName(file.getOriginalFilename())
+				.contentType(file.getContentType()).build();
+		System.out.println(productFile);
 
 		productFileRepo.save(productFile);
 		return productFile;
+	}
 
+	@RequestMapping(value = "/product-files/{id}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> getProductFile(@PathVariable("id") long id, HttpServletResponse res)
+			throws IOException {
+		ProductFile productFile = productFileRepo.findById(id).orElse(null);
+
+		if (productFile == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.set("Content-Type", productFile.getContentType() + ";charset=UTF-8");
+		// inline: 뷰어로, attachement: 내려받기
+		responseHeaders.set("Content-Disposition",
+				"inline; filename=" + URLEncoder.encode(productFile.getFileName(), "UTF-8"));
+
+		return ResponseEntity.ok().headers(responseHeaders)
+				.body(Files.readAllBytes(FILE_PATH.resolve(productFile.getFileName())));
 	}
 }

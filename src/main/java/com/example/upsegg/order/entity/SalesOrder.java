@@ -30,16 +30,17 @@ public class SalesOrder {
 	private String name; // 구매자 이름
 	private String address; // 주소
 	private String tel; // 번호
+	private long pmt; // 결제 총 금액
 	private String orderDate; // 주문일
-	private long pmt; // 총 결제금액
-	private String note; // 요청사항
 	private String pay; // 결제 방법
+	private String note; // 요청사항
+	private Long salesOrderId;
+	private String productName;
+	private String code;
+	private String category;
 
 	@Column(columnDefinition = "CHAR(2)")
 	@ColumnDefault("'00'")
 	private String orderState; // 주문 상태
-
-	@OneToMany(cascade = CascadeType.PERSIST) // 영속성 전이로 저장
-	@JoinColumn(name = "salesOrderId")
-	private List<SalesOrderDetail> salesOrderDetail; // 다른 클래스로 삽입 -> 참조관계
+	private long price;
 }

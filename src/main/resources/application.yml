@@ -1,6 +1,8 @@
 server:
   port: 8080
-  
+
+# nohup java -jar -Dspring.profiles.active=prod upsegg-0.0.1-SNAPSHOT.jar > upsegg.log &
+
 spring:  application:
     name: management
   profiles:
@@ -30,14 +32,14 @@ spring:  application:
   kafka:    bootstrap-servers:
       - ec2-52-78-20-10.ap-northeast-2.compute.amazonaws.com:9092
       
-#eureka:
-#  client:
-#     service-url:
-#       # 유레카의 로컬 ip 주소
-#       defaultZone: http://192.168.0.38:8761/eureka/
-#  instance:
-#    # 본인 서비스의 로컬 ip 주소
-#    hostname: 192.168.0.26        
+eureka:
+  client:
+     service-url:
+       # 유레카의 로컬 ip 주소
+       defaultZone: http://192.168.0.38:8761/eureka/
+  instance:
+    # 본인 서비스의 로컬 ip 주소
+    hostname: 192.168.0.26        
 api:
   base-path: http://localhost:8080
   
@@ -48,7 +50,7 @@ eureka:
   client:
     service-url:
       # 유레카의 ec2 주소
-      default-zone: http://ec2-3.36.90.155.ap-northeast-2.compute.amazonaws.com:8761/eureka
+      defaultZone: http://3.36.90.155:8761/eureka
   instance:
     # 본인 서비스의 ec2 주소 서비스가 실행되는 ec2주소
-    hostname: ec2-52-79-237-234.ap-northeast-2.compute.amazonaws.com        
+    hostname: 52.79.237.234        
